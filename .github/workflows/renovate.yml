@@ -3,24 +3,20 @@ on:
   workflow_call:
     inputs:
       renovate_config:
-        description: "Path to the Renovate configuration file"
+        description: "Path to config file"
         required: true
         type: string
-    secrets:
-      RENOVATE_TOKEN:
-        description: "GitHub token for Renovate"
-        required: true
+      env:
+        RENOVATE_TOKEN: ${{ vars.RENOVATE_TOKEN }}
 
 jobs:
   renovate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Run Renovate
-        uses: renovatebot/github-action@v41.0.7
+      - uses: actions/checkout@v4
+      - uses: renovatebot/github-action@v41.0.7
+        env:
+          RENOVATE_TOKEN: ${{ env.RENOVATE_TOKEN }}
+          LOG_LEVEL: debug
         with:
           configurationFile: ${{ inputs.renovate_config }}
-          token: ${{ secrets.RENOVATE_TOKEN }}
-        env:
-          LOG_LEVEL: debug
