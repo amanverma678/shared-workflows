@@ -6,8 +6,9 @@ on:
         description: "Path to config file"
         required: true
         type: string
-      env:
-        RENOVATE_TOKEN: ${{ vars.RENOVATE_TOKEN }}
+    secrets:
+      RENOVATE_TOKEN:
+        required: true
 
 jobs:
   renovate:
@@ -15,8 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: renovatebot/github-action@v41.0.7
-        env:
-          RENOVATE_TOKEN: ${{ env.RENOVATE_TOKEN }}
-          LOG_LEVEL: debug
         with:
           configurationFile: ${{ inputs.renovate_config }}
+          token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          LOG_LEVEL: debug
