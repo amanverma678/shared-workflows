@@ -23,6 +23,6 @@ jobs:
         uses: renovatebot/github-action@v41.0.7
         with:
           configurationFile: ${{ inputs.renovate_config }}
-          token: ${{ inputs.renovate_token }}
+          renovate_token: ${{ inputs.renovate_token }}
         env:
           LOG_LEVEL: debug
